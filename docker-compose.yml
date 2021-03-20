@@ -6,11 +6,12 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     image: apshuk17/movieclient
-    container_name: moviesapp_front_end
     expose:
       - "3000"
     ports:
       - "8080:3000"
+    links:
+      - server
     volumes:
       - "/app/node_modules"
       - "./client:/app"
@@ -20,9 +21,10 @@ services:
       context: ./server
       dockerfile: Dockerfile.dev
     image: apshuk17/movieserver
-    container_name: moviesapp_back_end
     environment:
       PORT: 5000
+    expose:
+      - "5000"
     ports:
       - "5000:5000"
     volumes:
