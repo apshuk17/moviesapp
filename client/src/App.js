@@ -22,8 +22,8 @@ function App() {
       data: { data }
     } = newMovie;
     setMovies([...movies, data.movie]);
-    setMovie(null);
-    setRelease(null);
+    setMovie('');
+    setRelease('');
   };
 
   const fetchMovies = async () => {
