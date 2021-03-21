@@ -14,21 +14,20 @@ function App() {
 
   const submitMovie = async (e) => {
     e.preventDefault();
-    const newMovie = await axios.post(
-      "http://localhost:5000/api/values/movies",
-      {
-        name: movie,
-        release
-      }
-    );
+    const newMovie = await axios.post("/api/values/movies", {
+      name: movie,
+      release
+    });
     const {
       data: { data }
     } = newMovie;
     setMovies([...movies, data.movie]);
+    setMovie(null);
+    setRelease(null);
   };
 
   const fetchMovies = async () => {
-    const response = await axios.get("http://localhost:5000/api/values/movies");
+    const response = await axios.get("/api/values/movies");
     if (
       response.data &&
       response.data.data &&
@@ -61,12 +60,13 @@ function App() {
         <button type="submit">Submit</button>
       </form>
       <div className="moviecontainer">
-        {movies.length &&
+        {!!movies.length &&
           movies.map((movie) => {
             return (
-              <div key={movie._id}>
+              <div className="row" key={movie._id}>
                 <span className="movieitem">{movie.name}</span>
                 <span className="movieitem">{movie.release}</span>
+                <span className="movieitem cancelbtn">Delete</span>
               </div>
             );
           })}

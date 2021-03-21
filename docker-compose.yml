@@ -6,33 +6,22 @@ services:
       context: ./client
       dockerfile: Dockerfile.dev
     image: apshuk17/movieclient
-    expose:
-      - "3000"
-    ports:
-      - "8080:3000"
-    links:
-      - server
     volumes:
       - "/app/node_modules"
       - "./client:/app"
     depends_on: 
       - mongo
-      - server
+      - api
 
-  server:
+  api:
     build:
       context: ./server
       dockerfile: Dockerfile.dev
     image: apshuk17/movieserver
     environment:
-      - PORT=5000
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_DB=test
-    expose:
-      - "5000"
-    ports:
-      - "5000:5000"
     volumes:
       - "/app/node_modules"
       - "./server:/app"
@@ -43,8 +32,18 @@ services:
     image: mongo
     volumes:
       - data-volume:/data/db
-    expose:
-      - "27017"
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:80"
+    depends_on: 
+      - mongo
+      - api
+      - client
 
 volumes:
   data-volume:

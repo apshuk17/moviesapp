@@ -28,13 +28,23 @@
   color: #61dafb;
 }
 
-.moviecontainer{
+.moviecontainer {
   margin-top: 40px;
 }
 
 .movieitem {
   margin-right: 20px;
   font-weight: bold;
+}
+
+.cancelbtn {
+  padding: 5px 10px;
+  background-color: grey;
+  cursor: pointer;
+}
+
+.row {
+  margin-bottom: 25px;
 }
 
 @keyframes App-logo-spin {
